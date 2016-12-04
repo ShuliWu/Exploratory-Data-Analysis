@@ -1,0 +1,18 @@
+# working directory: change to your own folder
+setwd("C:/Users/xiling/Desktop")
+
+library(utils)
+
+# Read data
+mydata <- read.table ("household_power_consumption.txt", header=TRUE, sep = ";", stringsAsFactors=FALSE, dec=".")
+mydatasubset <- mydata[mydata$Date=="1/2/2007" |mydata$Date=="2/2/2007",]
+rm(mydata)
+
+# line plot
+global_active_power = mydatasubset[["Global_active_power"]]
+global_active_power <- as.numeric(global_active_power)
+dates <- mydatasubset[["Date"]]
+times <- mydatasubset[["Time"]]
+date_time = paste(dates, times)
+date_time = strptime(date_time, "%d/%m/%Y %H:%M:%S")
+plot(date_time, global_active_power, type="l", ylab="Global Active Power (kw)")
