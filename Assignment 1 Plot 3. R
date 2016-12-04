@@ -1,0 +1,27 @@
+# working directory: change to your own folder
+setwd("C:/Users/xiling/Desktop")
+
+library(utils)
+
+# Read data
+mydata <- read.table ("household_power_consumption.txt", header=TRUE, sep = ";", stringsAsFactors=FALSE, dec=".")
+mydatasubset <- mydata[mydata$Date=="1/2/2007" |mydata$Date=="2/2/2007",]
+rm(mydata)
+
+# multiple lines in one plot
+dates <- mydatasubset[["Date"]]
+times <- mydatasubset[["Time"]]
+date_time = paste(dates, times)
+date_time = strptime(date_time, "%d/%m/%Y %H:%M:%S")
+sub_metering_1 <- mydatasubset[["Sub_metering_1"]]
+sub_metering_1 <- as.numeric(sub_metering_1)
+sub_metering_2 <- mydatasubset[["Sub_metering_2"]]
+sub_metering_2 <- as.numeric(sub_metering_2)
+sub_metering_3 <- mydatasubset[["Sub_metering_3"]]
+sub_metering_3 <- as.numeric(sub_metering_3)
+plot(date_time, sub_metering_1, type="l", col="black", ylab="Energy sub metering", xlab="")
+lines(date_time, sub_metering_2, type="l", col="red")
+lines(date_time, sub_metering_3, type="l", col="blue")
+legends = c("sub_metering_1", "sub_metering_2", "sub_metering_3")
+cols = c("black", "red", "blue")
+legend("topright", legends, lty=1, col=cols)
